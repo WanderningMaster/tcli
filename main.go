@@ -10,8 +10,10 @@ import (
 	"github.com/WanderningMaster/tcli/internal/logger"
 )
 
+var debug = true
+
 func main() {
-	log := logger.NewSlog()
+	log := logger.NewLogrus(debug)
 	ctx := logger.WithLogger(context.Background(), log)
 
 	tomlParser := encoding.NewTomlParser()

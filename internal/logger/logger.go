@@ -6,10 +6,10 @@ import (
 
 type loggerKey struct{}
 type Logger interface {
-	Info(msg string, args ...any)
-	Warn(format string, a ...any)
-	Error(format string, a ...any)
-	Debug(format string, a ...any)
+	Info(args ...interface{})
+	Warn(args ...interface{})
+	Error(args ...interface{})
+	Debug(args ...interface{})
 }
 
 func WithLogger(ctx context.Context, l Logger) context.Context {
