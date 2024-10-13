@@ -16,9 +16,9 @@ func main() {
 	log := logger.NewLogrus(debug)
 	ctx := logger.WithLogger(context.Background(), log)
 
-	tomlParser := encoding.NewTomlParser()
+	p := encoding.NewTomlParser()
 
-	cfg := config.NewConfig(ctx, tomlParser)
+	cfg := config.NewConfig(ctx, p)
 	if cfg == nil {
 		os.Exit(1)
 	}

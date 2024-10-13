@@ -3,6 +3,7 @@ package config
 import (
 	"context"
 	"errors"
+	"fmt"
 	"os"
 	"path"
 
@@ -10,8 +11,6 @@ import (
 	"github.com/WanderningMaster/tcli/internal/encoding"
 	"github.com/WanderningMaster/tcli/internal/logger"
 )
-
-const WhereAmI = "tcli/config.toml"
 
 var (
 	ConfigNotFound = errors.New("Config not found in desired location")
@@ -22,7 +21,7 @@ type Config struct {
 }
 
 func LoadConfig(ctx context.Context, p encoding.Parser, cfg *Config) error {
-	filePath := path.Join(internal.GetConfigDir(ctx), "tcli", "config.toml")
+	filePath := path.Join(internal.GetConfigDir(ctx), "tcli", fmt.Sprintf("config.%s", p.Extension()))
 
 	b, err := os.ReadFile(filePath)
 	if err != nil {
@@ -42,6 +41,7 @@ func LoadDefaultConfig(ctx context.Context, p encoding.Parser, cfg *Config) erro
 
 	cfg.StoragePath = internal.GetHomeDir(ctx)
 	b, err := p.Marshal(ctx, &cfg)
+
 	if err != nil {
 		panic(err)
 	}
@@ -53,7 +53,7 @@ func LoadDefaultConfig(ctx context.Context, p encoding.Parser, cfg *Config) erro
 		}
 	}
 
-	filePath := path.Join(configDir, "config.toml")
+	filePath := path.Join(configDir, fmt.Sprintf("config.%s", p.Extension()))
 
 	fd, err := os.Create(filePath)
 	defer fd.Close()
